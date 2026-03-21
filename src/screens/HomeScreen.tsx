@@ -1,8 +1,9 @@
 import { View, Text, Button, FlatList, StyleSheet } from "react-native";
 import { useBudget } from "../context/BudgetContext";
+import { TouchableOpacity } from "react-native";
 
 export default function HomeScreen({ navigation }: any) {
-  const { transactions } = useBudget();
+  const { transactions, deleteTransaction } = useBudget();
 
   const income = transactions
     .filter((t) => t.type === "income")
@@ -29,17 +30,20 @@ export default function HomeScreen({ navigation }: any) {
         keyExtractor={(item) => item.id}
         ListEmptyComponent={<Text>No transactions yet</Text>}
         renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.category}>{item.category}</Text>
-            <Text
-              style={[
-                styles.amount,
-                { color: item.type === "expense" ? "red" : "green" },
-              ]}
+            <TouchableOpacity
+                onPress={() => deleteTransaction(item.id)}
+                style={styles.item}
             >
-              {item.type === "expense" ? "-" : "+"}${item.amount}
-            </Text>
-          </View>
+                <Text style={styles.category}>{item.category}</Text>
+                <Text
+                style={[
+                    styles.amount,
+                    { color: item.type === "expense" ? "red" : "green" },
+                ]}
+                >
+                {item.type === "expense" ? "-" : "+"}${item.amount}
+                </Text>
+            </TouchableOpacity>
         )}
       />
 

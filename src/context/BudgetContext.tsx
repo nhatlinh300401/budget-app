@@ -5,6 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 type BudgetContextType = {
   transactions: Transaction[];
   addTransaction: (t: Transaction) => void;
+  deleteTransaction: (id: string) => void;
 };
 
 const BudgetContext = createContext<BudgetContextType | undefined>(undefined);
@@ -48,8 +49,12 @@ export const BudgetProvider = ({ children }: any) => {
     setTransactions((prev) => [...prev, transaction]);
   };
 
+  const deleteTransaction = (id: string) => {
+    setTransactions((prev) => prev.filter((t) => t.id !== id));
+  };
+
   return (
-    <BudgetContext.Provider value={{ transactions, addTransaction }}>
+    <BudgetContext.Provider value={{ transactions, addTransaction, deleteTransaction }}>
       {children}
     </BudgetContext.Provider>
   );
