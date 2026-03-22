@@ -1,4 +1,4 @@
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import { useBudget } from "../context/BudgetContext";
 
@@ -8,6 +8,8 @@ export default function AddTransactionScreen({ navigation }: any) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
+
+  const categories = ["Food", "Transport", "Shopping", "Salary"];
 
   const handleSave = () => {
     if (!amount || !category) return;
@@ -35,12 +37,20 @@ export default function AddTransactionScreen({ navigation }: any) {
         style={styles.input}
       />
 
-      <TextInput
-        placeholder="Category (e.g. Food)"
-        value={category}
-        onChangeText={setCategory}
-        style={styles.input}
-      />
+      <View style={styles.categoryContainer}>
+        {categories.map((cat) => (
+            <TouchableOpacity
+            key={cat}
+            style={[
+                styles.categoryButton,
+                category === cat && styles.selectedCategory,
+            ]}
+            onPress={() => setCategory(cat)}
+            >
+            <Text>{cat}</Text>
+            </TouchableOpacity>
+        ))}
+      </View>
 
       <View style={styles.row}>
         <Button title="Expense" onPress={() => setType("expense")} />
@@ -71,5 +81,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 20,
+  },
+  categoryContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginBottom: 20,
+  },
+  categoryButton: {
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    marginRight: 10,
+    marginBottom: 10,
+  },
+  selectedCategory: {
+    backgroundColor: "#ddd",
   },
 });
