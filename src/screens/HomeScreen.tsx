@@ -75,7 +75,7 @@ export default function HomeScreen({ navigation }: any) {
         ListEmptyComponent={<Text>No transactions yet</Text>}
         renderItem={({ item }) => (
             <TouchableOpacity
-                onPress={() => handleDelete(item.id)}
+                onPress={() => navigation.navigate("EditTransaction", { transaction: item})}
                 style={styles.item}
             >
                 <Text style={styles.category}>{item.category}</Text>

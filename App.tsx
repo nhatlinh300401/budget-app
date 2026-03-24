@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "./src/screens/HomeScreen";
 import AddTransactionScreen from "./src/screens/AddTransactionScreen";
+import EditTransactionScreen from "./src/screens/EditTransactionScreen";
 
 import { BudgetProvider } from "./src/context/BudgetContext";
 
@@ -18,6 +19,7 @@ export default function App() {
             name="AddTransaction"
             component={AddTransactionScreen}
           />
+          <Stack.Screen name="EditTransaction" component={EditTransactionScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </BudgetProvider>

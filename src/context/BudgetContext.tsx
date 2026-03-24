@@ -6,6 +6,7 @@ type BudgetContextType = {
   transactions: Transaction[];
   addTransaction: (t: Transaction) => void;
   deleteTransaction: (id: string) => void;
+  updateTransaction: (updated: Transaction) => void;
 };
 
 const BudgetContext = createContext<BudgetContextType | undefined>(undefined);
@@ -53,8 +54,14 @@ export const BudgetProvider = ({ children }: any) => {
     setTransactions((prev) => prev.filter((t) => t.id !== id));
   };
 
+  const updateTransaction = (updated: Transaction) => {
+    setTransactions((prev) =>
+      prev.map((t) => (t.id === updated.id ? updated : t))
+    );
+  };
+
   return (
-    <BudgetContext.Provider value={{ transactions, addTransaction, deleteTransaction }}>
+    <BudgetContext.Provider value={{ transactions, addTransaction, deleteTransaction, updateTransaction }}>
       {children}
     </BudgetContext.Provider>
   );
